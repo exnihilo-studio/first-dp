@@ -35,7 +35,7 @@ jobs:
         with:
           action: provision-resources
           config_yml_file: ${{ matrix.config_file }}
-          genesis_version: v0.9.0
+          genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.1
           debug: true
           run_terraform_apply: true
           ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
