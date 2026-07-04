@@ -1,0 +1,5 @@
+name: "first data product"
+ short_name: "first-dp"
+ description: "This is the first data product"
+ github_maintainer_team_slug: "exnihilo-team"
+ github_repo_visibility: "public"
