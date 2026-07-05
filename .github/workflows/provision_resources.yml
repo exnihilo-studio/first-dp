@@ -34,7 +34,7 @@ jobs:
       - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.2
         with:
           action: provision-resources
-          config_yml_file: ${{ matrix.config_file }}
+          config_yml_file: data_product_definition.yml
           genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.4
           debug: true
           run_terraform_apply: true
