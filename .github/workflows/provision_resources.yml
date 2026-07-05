@@ -26,16 +26,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.11.0
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.12.0-feat-add-cloud-provider-as-output.3
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.2
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.3
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.4
+          genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.7
           debug: true
           run_terraform_apply: true
           ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
@@ -43,8 +43,8 @@ jobs:
           cloud_provider: ${{ vars.CLOUD_PROVIDER }}
           gcp_region: ${{ vars.GCP_REGION }}
           gcp_zone: ${{ vars.GCP_ZONE }}
-          seed_project_id: ${{ vars.GCP_PROJECT_ID }}
-          seed_service_account: ${{ vars.DEPLOYMENT_SERVICE_ACCOUNT_EMAIL }}
+          gcp_project_id: ${{ vars.GCP_PROJECT_ID }}
+          impersonate_service_account: ${{ vars.DEPLOYMENT_SERVICE_ACCOUNT_EMAIL }}
           gcp_workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID }}
           environment: ""
           github_repository_owner: ""
