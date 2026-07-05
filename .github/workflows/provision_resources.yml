@@ -31,31 +31,31 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           gcp_project: ${{ secrets.GCP_SEED_PROJECT }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.11.0
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.2
         with:
           action: provision-resources
           config_yml_file: ${{ matrix.config_file }}
-          genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.1
+          genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.4
           debug: true
           run_terraform_apply: true
           ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
-          repo_admin_token: ${{ secrets.VARS_ACCESS_TOKEN }}
-          github_repo_name: ""
-          username: 'aalloul'
-          folder_id: ${{ vars.FOLDER_ID }}
           cloud_provider: ${{ vars.CLOUD_PROVIDER }}
           gcp_region: ${{ vars.GCP_REGION }}
           gcp_zone: ${{ vars.GCP_ZONE }}
-          organization_short_name: ${{ vars.ORGANIZATION_SHORT_NAME }}
-          seed_project_id: ${{ vars.SEED_PROJECT_ID }}
-          seed_service_account: ${{ vars.SEED_SERVICE_ACCOUNT }}
-          billing_account: ${{ secrets.BILLING_ACCOUNT }}
-          gcp_seed_project: ${{ secrets.GCP_SEED_PROJECT }}
-          gcp_service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-          gcp_workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          github_repository_owner: ${{ github.repository_owner }}
-          vpcsc_perimeter_name: ${{ vars.VPCSC_PERIMETER_NAME }}
-          environment: ${{ vars.ENVIRONMENT }}
-          terraform_bucket: ${{ vars.TERRAFORM_BUCKET }}
-          organization_name: ${{ vars.ORGANIZATION_NAME }}
-          organization_id: ${{ vars.ORGANIZATION_ID }}
+          seed_project_id: ${{ vars.GCP_PROJECT_ID }}
+          seed_service_account: ${{ vars.DEPLOYMENT_SERVICE_ACCOUNT_EMAIL }}
+          gcp_workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID }}
+          environment: ""
+          github_repository_owner: ""
+          vpcsc_perimeter_name: ""
+          terraform_bucket: ""
+          organization_name: ""
+          organization_id: ""
+          github_repo_name: ""
+          repo_admin_token: ""
+          username: ''
+          folder_id: ""
+          organization_short_name: ""
+          billing_account: ""
+          gcp_seed_project: ""
+          gcp_service_account: ""
