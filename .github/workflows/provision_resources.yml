@@ -39,6 +39,7 @@ jobs:
           debug: true
           run_terraform_apply: true
           ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
+          username: 'aalloul'
           cloud_provider: ${{ vars.CLOUD_PROVIDER }}
           gcp_region: ${{ vars.GCP_REGION }}
           gcp_zone: ${{ vars.GCP_ZONE }}
@@ -53,7 +54,6 @@ jobs:
           organization_id: ""
           github_repo_name: ""
           repo_admin_token: ""
-          username: ''
           folder_id: ""
           organization_short_name: ""
           billing_account: ""
