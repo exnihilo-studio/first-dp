@@ -26,16 +26,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.12.0-feat-add-cloud-provider-as-output.6
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.12.0
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.6
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.11.0-fix-bucket-provisioning-in-data-product.15
+          genesis_version: v0.11.0
           debug: true
           run_terraform_apply: true
           ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
