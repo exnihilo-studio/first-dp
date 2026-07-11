@@ -26,12 +26,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.12.0-feat-add-cloud-provider-as-output.4
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.12.0-feat-add-cloud-provider-as-output.5
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.4
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0-feat-add-cloud-provider-as-output.5
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
