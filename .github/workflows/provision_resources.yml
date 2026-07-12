@@ -26,36 +26,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.12.0
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.13.0-feat-create-bigquery-tables.1
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.12.0
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.13.0-feat-create-bigquery-tables.1
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
           genesis_version: v0.12.0-feat-create-bigquery-tables.1
           debug: true
           run_terraform_apply: false
-          ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
-          username: 'aalloul'
-          cloud_provider: ${{ vars.CLOUD_PROVIDER }}
-          gcp_region: ${{ vars.GCP_REGION }}
-          gcp_zone: ${{ vars.GCP_ZONE }}
-          gcp_project_id: ${{ vars.GCP_PROJECT_ID }}
-          impersonate_service_account: ${{ vars.DEPLOYMENT_SERVICE_ACCOUNT_EMAIL }}
-          gcp_workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID }}
-          environment: ""
-          github_repository_owner: ""
-          vpcsc_perimeter_name: ""
-          terraform_bucket: ""
-          organization_name: ""
-          organization_id: ""
-          github_repo_name: ""
-          repo_admin_token: ""
-          folder_id: ""
-          organization_short_name: ""
-          billing_account: ""
-          gcp_seed_project: ""
-          gcp_service_account: ""
+          env_vars: ${{ toJSON(vars) }}
+          secrets: ${{ toJSON(secrets) }}
