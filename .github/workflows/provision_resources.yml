@@ -26,12 +26,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.13.0-feat-create-bigquery-tables.1
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.13.0-feat-create-bigquery-tables.2
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.13.0-feat-create-bigquery-tables.1
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.13.0-feat-create-bigquery-tables.2
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
