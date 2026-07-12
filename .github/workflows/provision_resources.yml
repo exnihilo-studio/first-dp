@@ -35,9 +35,9 @@ jobs:
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.11.0
+          genesis_version: v0.12.0-feat-create-bigquery-tables.1
           debug: true
-          run_terraform_apply: true
+          run_terraform_apply: false
           ghcr_token: ${{ secrets.GENESIS_API_ACCESS }}
           username: 'aalloul'
           cloud_provider: ${{ vars.CLOUD_PROVIDER }}
