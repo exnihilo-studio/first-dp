@@ -35,7 +35,7 @@ jobs:
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.12.0-feat-create-bigquery-tables.2
+          genesis_version: v0.12.0-feat-create-bigquery-tables.3
           debug: true
           run_terraform_apply: false
           env_vars: ${{ toJSON(vars) }}
