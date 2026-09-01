@@ -9,18 +9,18 @@ gcp:
     - name: "test-bucket"
       force_destroy: true
       versioning: false
-
-  bigquery:
-    tables:
-      - table_id: "first_table"
-        description: "testing table provisioning"
-        table_schema:
-          - name: "id"
-            type: "STRING"
-            mode: "REQUIRED"
-          - name: "name"
-            type: "STRING"
-            mode: "NULLABLE"
-          - name: "created_at"
-            type: "TIMESTAMP"
-            mode: "NULLABLE"
+#
+#  bigquery:
+#    tables:
+#      - table_id: "first_table"
+#        description: "testing table provisioning"
+#        table_schema:
+#          - name: "id"
+#            type: "STRING"
+#            mode: "REQUIRED"
+#          - name: "name"
+#            type: "STRING"
+#            mode: "NULLABLE"
+#          - name: "created_at"
+#            type: "TIMESTAMP"
+#            mode: "NULLABLE"
