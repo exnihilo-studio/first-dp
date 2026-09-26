@@ -3,24 +3,25 @@ short_name: "first-dp"
 description: "This is the first data product"
 github_maintainer_team_slug: "exnihilo-team"
 github_repo_visibility: "public"
+team_google_group: "data_team@adamdataservices.com"
 
 gcp:
   buckets:
     - name: "test-bucket"
       force_destroy: true
       versioning: false
-#
-#  bigquery:
-#    tables:
-#      - table_id: "first_table"
-#        description: "testing table provisioning"
-#        table_schema:
-#          - name: "id"
-#            type: "STRING"
-#            mode: "REQUIRED"
-#          - name: "name"
-#            type: "STRING"
-#            mode: "NULLABLE"
-#          - name: "created_at"
-#            type: "TIMESTAMP"
-#            mode: "NULLABLE"
+
+  bigquery:
+    tables:
+      - table_id: "first_table"
+        description: "testing table provisioning"
+        table_schema:
+          - name: "id"
+            type: "STRING"
+            mode: "REQUIRED"
+          - name: "name"
+            type: "STRING"
+            mode: "NULLABLE"
+          - name: "created_at"
+            type: "TIMESTAMP"
+            mode: "NULLABLE"
