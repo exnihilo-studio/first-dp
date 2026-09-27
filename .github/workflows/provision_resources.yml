@@ -26,16 +26,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.13.0
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.13.1-upgrade-terraform.1
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.13.0
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.13.1-upgrade-terraform.1
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.12.0
+          genesis_version: v0.12.1-upgrade-terraform.1
           debug: true
           run_terraform_apply: true
           env_vars: ${{ toJSON(vars) }}
