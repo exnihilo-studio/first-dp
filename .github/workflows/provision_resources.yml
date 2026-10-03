@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
 
       - id: auth
-        uses: aalloul/genesis-action/authenticate-with-gcp@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+        uses: aalloul/genesis-action/authenticate-with-gcp@v0.15.0
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
@@ -37,13 +37,13 @@ jobs:
           token_format: access_token
 
       - id: release
-        uses: aalloul/genesis-action/semantic-release@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+        uses: aalloul/genesis-action/semantic-release@v0.15.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - id: build
         if: ${{ steps.release.outputs.released == 'true' }}
-        uses: aalloul/genesis-action/build-and-push-docker-image@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+        uses: aalloul/genesis-action/build-and-push-docker-image@v0.15.0
         with:
           repository_url: ${{ vars.ARTIFACT_REGISTRY_REPOSITORY_URL }}
           version: ${{ steps.release.outputs.version }}
@@ -77,16 +77,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.15.0
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.15.0
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.15.0-feat-deploy-container-to-central-artifact-registry.1
+          genesis_version: v0.15.0
           debug: true
           run_terraform_apply: true
           env_vars: ${{ toJSON(vars) }}
