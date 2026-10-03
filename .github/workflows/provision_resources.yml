@@ -14,11 +14,13 @@ permissions:
 
 jobs:
 
-  provision-resources:
-    name: "Provision resources"
+  build-docker-image:
+    name: "Build and publish Docker image"
     runs-on: ubuntu-latest
-    # TODO make the determination of the environment dynamic based on branch vs tag
     environment: dev
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+      version: ${{ steps.release.outputs.version }}
 
     steps:
       - name: Checkout
@@ -26,16 +28,65 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.14.0
+      - id: auth
+        uses: aalloul/genesis-action/authenticate-with-gcp@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+        with:
+          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
+          gcp_project: ${{ vars.PROJECT_ID }}
+          service_account: ${{ vars.DEPLOYMENT_SERVICE_ACCOUNT_EMAIL }}
+          token_format: access_token
+
+      - id: release
+        uses: aalloul/genesis-action/semantic-release@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: build
+        if: ${{ steps.release.outputs.released == 'true' }}
+        uses: aalloul/genesis-action/build-and-push-docker-image@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
+        with:
+          repository_url: ${{ vars.ARTIFACT_REGISTRY_REPOSITORY_URL }}
+          version: ${{ steps.release.outputs.version }}
+          registry_password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Show image
+        if: ${{ steps.build.outputs.image != '' }}
+        env:
+          IMAGE: ${{ steps.build.outputs.image }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          echo "Image: ${IMAGE%:*}"
+          echo "Tag:   ${VERSION}"
+          echo "Full:  ${IMAGE}"
+          {
+            echo "### Docker image pushed"
+            echo "- Image: \`${IMAGE%:*}\`"
+            echo "- Tag: \`${VERSION}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  provision-resources:
+    name: "Provision resources"
+    runs-on: ubuntu-latest
+    # TODO make the determination of the environment dynamic based on branch vs tag
+    environment: dev
+    needs: build-docker-image
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.14.0
+      - uses: aalloul/genesis-action/genesis-infra-api@v0.15.0-feat-deploy-container-to-central-artifact-registry.2
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.14.0
+          genesis_version: v0.15.0-feat-deploy-container-to-central-artifact-registry.1
           debug: true
           run_terraform_apply: true
           env_vars: ${{ toJSON(vars) }}
