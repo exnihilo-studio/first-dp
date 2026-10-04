@@ -11,4 +11,6 @@ dependencies = [
 dev = [
     "apache-airflow==2.11.1",
     "apache-airflow-providers-cncf-kubernetes==10.14.0",
+    "google-auth==2.59.1",
+    "google-cloud-secret-manager==2.31.0"
 ]
