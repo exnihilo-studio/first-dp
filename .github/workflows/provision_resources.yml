@@ -86,7 +86,7 @@ jobs:
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.15.0
+          genesis_version: v0.15.1
           debug: true
           run_terraform_apply: true
           env_vars: ${{ toJSON(vars) }}
