@@ -1,0 +1,14 @@
+[project]
+name = "first-dp"
+version = "0.1.0"
+description = "first data product project"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+[dependency-groups]
+dev = [
+    "apache-airflow==2.11.1",
+    "apache-airflow-providers-cncf-kubernetes==10.14.0",
+]
