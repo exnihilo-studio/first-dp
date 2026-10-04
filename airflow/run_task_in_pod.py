@@ -14,20 +14,18 @@ default_args = {
 
 
 @task.kubernetes(
-    # specify the Docker image to launch, it needs to be able to run a Python script
-    image="europe-west2-docker.pkg.dev/gn-dev-ar-ens/first-dp",
-    # launch the Pod on the same cluster as Airflow is running on
-    in_cluster=True,
-    # launch the Pod in the same namespace as Airflow is running in
+    image="europe-west2-docker.pkg.dev/gn-dev-ar-ens/first-dp/first-dp:v1.1.0-feat-run-task-in-pod.2",
     namespace="composer-user-workloads",
-    # log events in case of Pod failure
+    kubernetes_conn_id="kubernetes_default",
+    config_file="/home/airflow/composer_kube_config",
+    in_cluster=False,
     log_events_on_failure=True,
-    # enable pushing to XCom
     do_xcom_push=True,
 )
 def transform(data_point):
     multiplied_data_point = 23 * int(data_point)
     return multiplied_data_point
+
 
 # Define the DAG
 @dag(
