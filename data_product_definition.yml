@@ -25,3 +25,8 @@ gcp:
           - name: "created_at"
             type: "TIMESTAMP"
             mode: "NULLABLE"
+
+  secrets:
+    - name: "first_secret"
+      labels: # optional
+        label_1: "123"
