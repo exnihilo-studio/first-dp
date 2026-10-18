@@ -30,3 +30,12 @@ gcp:
     - name: "first_secret"
       labels: # optional
         label_1: "123"
+
+airflow:
+  - name: "multiply_by_23"
+    description: "DAG doing a multiplication"
+    folder: "airflow/src"
+
+  - name: "csv_to_gcs_to_bigquery"
+    description: "DAG to move CSV data to GCS and then to BigQuery"
+    file: "airflow/csv_to_gcs_to_bigquery.py"
