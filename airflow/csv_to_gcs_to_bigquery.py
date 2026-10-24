@@ -45,7 +45,7 @@ def write_csv_to_gcs(**context) -> str:
         CSV_CONTENT, content_type="text/csv"
     )
     logical_date = "{{ logical_date }}"
-    test_bucket_name = "{{ ge.test_bucket }}"
+    test_bucket_name = "{{ gn.test_bucket }}"
     uri = f"gs://{test_bucket_name}/{logical_date}/{object_name}/{{{{ ds_nodash }}}}.csv"
     print(f"Wrote {uri}")
     return uri
