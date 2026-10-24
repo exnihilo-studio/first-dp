@@ -44,8 +44,9 @@ def write_csv_to_gcs(**context) -> str:
     client.bucket(BUCKET_NAME).blob(object_name).upload_from_string(
         CSV_CONTENT, content_type="text/csv"
     )
-
-    uri = f"gs://{BUCKET_NAME}/{object_name}"
+    logical_date = "{{ logical_date }}"
+    test_bucket_name = "{{ gn.test_bucket }}"
+    uri = f"gs://{test_bucket_name}/{logical_date}/{object_name}/{{{{ ds_nodash }}}}.csv"
     print(f"Wrote {uri}")
     return uri
 
