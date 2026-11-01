@@ -19,8 +19,19 @@ env:
 
 jobs:
 
+  # Job-level `if` can't read `env`, so expose the flag as a job output.
+  config:
+    name: "Resolve flags"
+    runs-on: ubuntu-latest
+    outputs:
+      build_docker_image: ${{ env.BUILD_DOCKER_IMAGE }}
+    steps:
+      - run: echo "build_docker_image=${BUILD_DOCKER_IMAGE}"
+
   build-docker-image:
     name: "Build and publish Docker image"
+    needs: config
+    if: ${{ needs.config.outputs.build_docker_image == 'true' }}
     runs-on: ubuntu-latest
     environment: ${{ startsWith(github.ref, 'refs/tags/') && 'prod' || 'dev' }}
     outputs:
@@ -41,7 +52,6 @@ jobs:
           path: .genesis-action
 
       - id: auth
-        if: ${{ env.BUILD_DOCKER_IMAGE == 'true' }}
         uses: ./.genesis-action/authenticate-with-gcp
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
@@ -50,7 +60,6 @@ jobs:
           token_format: access_token
 
       - id: release
-        if: ${{ env.BUILD_DOCKER_IMAGE == 'true' }}
         uses: ./.genesis-action/semantic-release
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -83,6 +92,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ startsWith(github.ref, 'refs/tags/') && 'prod' || 'dev' }}
     needs: build-docker-image
+    # Run when the build succeeded or was skipped via BUILD_DOCKER_IMAGE
+    if: ${{ !cancelled() && contains(fromJSON('["success","skipped"]'), needs.build-docker-image.result) }}
 
     steps:
       - name: Checkout
