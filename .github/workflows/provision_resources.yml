@@ -12,12 +12,16 @@ permissions:
   packages: read
   pull-requests: read
 
+env:
+  GENESIS_ACTION_VERSION: v0.17.0-feat-automatic-environment-detection.1
+  GENESIS_VERSION: v0.18.0
+
 jobs:
 
   build-docker-image:
     name: "Build and publish Docker image"
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ startsWith(github.ref, 'refs/tags/') && 'prod' || 'dev' }}
     outputs:
       image: ${{ steps.build.outputs.image }}
       version: ${{ steps.release.outputs.version }}
@@ -28,8 +32,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Checkout genesis-action
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: aalloul/genesis-action
+          ref: ${{ env.GENESIS_ACTION_VERSION }}
+          path: .genesis-action
+
       - id: auth
-        uses: aalloul/genesis-action/authenticate-with-gcp@v0.16.1
+        uses: ./.genesis-action/authenticate-with-gcp
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
@@ -37,13 +48,13 @@ jobs:
           token_format: access_token
 
       - id: release
-        uses: aalloul/genesis-action/semantic-release@v0.16.1
+        uses: ./.genesis-action/semantic-release
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - id: build
         if: ${{ steps.release.outputs.released == 'true' }}
-        uses: aalloul/genesis-action/build-and-push-docker-image@v0.16.1
+        uses: ./.genesis-action/build-and-push-docker-image
         with:
           repository_url: ${{ vars.ARTIFACT_REGISTRY_REPOSITORY_URL }}
           version: ${{ steps.release.outputs.version }}
@@ -67,8 +78,7 @@ jobs:
   provision-resources:
     name: "Provision resources"
     runs-on: ubuntu-latest
-    # TODO make the determination of the environment dynamic based on branch vs tag
-    environment: dev
+    environment: ${{ startsWith(github.ref, 'refs/tags/') && 'prod' || 'dev' }}
     needs: build-docker-image
 
     steps:
@@ -77,16 +87,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: aalloul/genesis-action/authenticate-with-gcp@v0.16.1
+      - name: Checkout genesis-action
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: aalloul/genesis-action
+          ref: ${{ env.GENESIS_ACTION_VERSION }}
+          path: .genesis-action
+
+      - uses: ./.genesis-action/authenticate-with-gcp
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
           gcp_project: ${{ vars.PROJECT_ID }}
 
-      - uses: aalloul/genesis-action/genesis-infra-api@v0.16.1
+      - uses: ./.genesis-action/genesis-infra-api
         with:
           action: provision-resources
           config_yml_file: data_product_definition.yml
-          genesis_version: v0.18.0
+          genesis_version: ${{ env.GENESIS_VERSION }}
           debug: true
           run_terraform_apply: true
           env_vars: ${{ toJSON(vars) }}
