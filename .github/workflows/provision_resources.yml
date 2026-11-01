@@ -13,8 +13,8 @@ permissions:
   pull-requests: read
 
 env:
-  GENESIS_ACTION_VERSION: v0.17.0-feat-automatic-environment-detection.1
-  GENESIS_VERSION: v0.18.0
+  GENESIS_ACTION_VERSION: v0.17.0
+  GENESIS_VERSION: v0.19.0
   BUILD_DOCKER_IMAGE: false
 
 jobs:
