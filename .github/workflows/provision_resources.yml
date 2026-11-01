@@ -15,6 +15,7 @@ permissions:
 env:
   GENESIS_ACTION_VERSION: v0.17.0-feat-automatic-environment-detection.1
   GENESIS_VERSION: v0.18.0
+  BUILD_DOCKER_IMAGE: false
 
 jobs:
 
@@ -40,6 +41,7 @@ jobs:
           path: .genesis-action
 
       - id: auth
+        if: ${{ env.BUILD_DOCKER_IMAGE == 'true' }}
         uses: ./.genesis-action/authenticate-with-gcp
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER_NAME }}
@@ -48,6 +50,7 @@ jobs:
           token_format: access_token
 
       - id: release
+        if: ${{ env.BUILD_DOCKER_IMAGE == 'true' }}
         uses: ./.genesis-action/semantic-release
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
