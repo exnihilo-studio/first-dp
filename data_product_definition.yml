@@ -40,7 +40,7 @@ airflow:
     description: "DAG to move CSV data to GCS and then to BigQuery"
     file: "airflow/csv_to_gcs_to_bigquery.py"
 
-predefined-pipelines:
+predefined_pipelines:
   - name: "google_analytics_to_bigquery"
     options:
       properties:
