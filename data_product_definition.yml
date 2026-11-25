@@ -39,3 +39,11 @@ airflow:
   - name: "csv_to_gcs_to_bigquery"
     description: "DAG to move CSV data to GCS and then to BigQuery"
     file: "airflow/csv_to_gcs_to_bigquery.py"
+
+predefined-pipelines:
+  - name: "google_analytics_to_bigquery"
+    options:
+      properties:
+        - name: "poetai"
+          environment: "dev"
+          property_id: "383880885"

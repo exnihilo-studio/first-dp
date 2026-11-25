@@ -14,7 +14,7 @@ permissions:
 
 env:
   GENESIS_ACTION_VERSION: v0.17.0
-  GENESIS_VERSION: v0.19.0
+  GENESIS_VERSION: v0.20.0-feat-google-analytics-data-product.1
   BUILD_DOCKER_IMAGE: false
 
 jobs:
